@@ -1,4 +1,5 @@
 ﻿using Business.Conrerte;
+using DataAccess.Conrerte.EntityFramework;
 using DataAccess.Conrerte.InMemory;
 using System;
 
@@ -8,7 +9,7 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new InMemoryCarDal());
+            CarManager carManager = new CarManager(new EfCarDal());
 
             foreach (var car in carManager.GetAll())
             {
