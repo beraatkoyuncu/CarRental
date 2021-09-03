@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities.Conrerte;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,56 +11,23 @@ using System.Text;
 
 namespace DataAccess.Conrerte.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, dbRentACarContext>, ICarDal
     {
-        public void Add(Car entity)
-        {
-            //IDispossable pattern implementation of c#
-            //NorthwindContext işi bittiğinde bellekte yer kaplamasın diye using içinde kullandım.
-            using (dbRentACarContext context = new dbRentACarContext())
-            {
-                var addedEntity = context.Entry(entity);//referansı yakala
-                addedEntity.State = EntityState.Added;//eklenecek nesne olduğunu belirttik
-                context.SaveChanges();
-
-            }
-        }
-
-        public void Delete(Car entity)
-        {
-            using (dbRentACarContext context = new dbRentACarContext())
-            {
-                var deletedEntity = context.Entry(entity);
-                deletedEntity.State = EntityState.Deleted;
-                context.SaveChanges();
-            }
-        }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
+        public List<CarDetailDto> GetCarDetails()
         {
             using (dbRentACarContext context=new dbRentACarContext())
             {
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
-        }
+                var result = from c in context.tblCars
+                             join b in context.tblBrands
+                             on c.BrandId equals b.BrandId
+                             join p in context.tblColors
+                             on c.ColorId equals p.ColorId
+                             select new CarDetailDto { Id = c.Id, CarName = c.CarName, BrandName = b.BrandName, 
+                                 ColorName = p.ColorName, DailyPrice = (short)c.DailyPrice };
+                return result.ToList();
 
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (dbRentACarContext context = new dbRentACarContext())
-            {
-                return filter == null ? context.Set<Car>().ToList() : context.Set<Car>().Where(filter).ToList();
-                
             }
-        }
 
-        public void Update(Car entity)
-        {
-            using (dbRentACarContext context = new dbRentACarContext())
-            {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
-            }
         }
     }
 }

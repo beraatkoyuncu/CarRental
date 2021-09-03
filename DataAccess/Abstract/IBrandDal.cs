@@ -1,4 +1,5 @@
-﻿using Entities.Conrerte;
+﻿using Core.DataAccess;
+using Entities.Conrerte;
 using System;
 using System.Collections.Generic;
 using System.Text;
