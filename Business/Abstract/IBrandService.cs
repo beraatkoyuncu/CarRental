@@ -1,4 +1,5 @@
-﻿using Entities.Conrerte;
+﻿using Core.Utilities.Results;
+using Entities.Conrerte;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,11 @@ namespace Business.Abstract
 {
     public interface IBrandService
     {
-        List<Brand> GetAll();
-        Brand GeyById(int BrandId);
+        IDataResult<List<Brand>> GetAll();
+        IDataResult<Brand> GetByBrandId(int brandId);
+        IResult Add(Brand brand);
+        IResult Update(Brand brand);
+        IResult Delete(Brand brand);
 
     }
 }

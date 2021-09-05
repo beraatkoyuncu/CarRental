@@ -22,9 +22,14 @@ namespace DataAccess.Conrerte.EntityFramework
                              on c.BrandId equals b.BrandId
                              join p in context.tblColors
                              on c.ColorId equals p.ColorId
-                             select new CarDetailDto {
-                                 CarId = c.CarId, CarName = c.CarName, BrandName = b.BrandName, 
-                                 ColorName = p.ColorName, DailyPrice = (short)c.DailyPrice };
+                             select new CarDetailDto 
+                             {
+                                 CarId = c.CarId, 
+                                 CarName = c.CarName, 
+                                 BrandName = b.BrandName, 
+                                 ColorName = p.ColorName, 
+                                 DailyPrice = (short)c.DailyPrice 
+                             };
                 return result.ToList();
 
             }

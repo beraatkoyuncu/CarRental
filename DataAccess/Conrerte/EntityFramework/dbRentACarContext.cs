@@ -17,6 +17,8 @@ namespace DataAccess.Conrerte.EntityFramework
         public DbSet<Car> tblCars { get; set; }
         public DbSet<Brand> tblBrands { get; set; }
         public DbSet<Color> tblColors { get; set; }
-
+        public DbSet<Customer> tblCustomers { get; set; }
+        public DbSet<Rental> tblRentals { get; set; }
+        public DbSet<User> tblUsers { get; set; }
     }
 }
